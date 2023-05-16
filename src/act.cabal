@@ -14,11 +14,7 @@ common deps
   build-depends: base               >= 4.9 && < 5,
                  aeson              >= 1.0,
                  containers         >= 0.5,
-                 hevm               >= 0.47.1 && < 0.48,
-                 -- hevm version has an ugly upper bound to
-                 -- force usage of version from nix-shell,
-                 -- which avoids weird missing deps when
-                 -- pulling it from hackage.
+                 hevm               >= 0.50 && < 0.52,
                  lens               >= 4.17.1,
                  text               >= 1.2,
                  array              >= 0.5.3.0,
@@ -41,10 +37,10 @@ common deps
   else
       ghc-options: -Wall -Wno-orphans -Wno-unticked-promoted-constructors
 
-library act-internal
+library
   import:             deps
   build-tool-depends: happy:happy, alex:alex
-  hs-source-dirs:     .
+  hs-source-dirs:     src
   default-language:   Haskell2010
   exposed-modules:    CLI Error Print SMT Syntax.Annotated Syntax.TimeAgnostic Lex Parse
   other-modules:      K HEVM Coq Syntax Syntax.Untyped Syntax.Typed Syntax.Types Syntax.Timing Type Enrich Dev
@@ -52,9 +48,9 @@ library act-internal
 executable act
   import:             deps
   main-is:            Main.hs
-  hs-source-dirs:     main
+  hs-source-dirs:     src/main
   default-language:   Haskell2010
-  build-depends:      act-internal
+  build-depends:      act
 
 Test-Suite test
   import:           deps
@@ -62,11 +58,11 @@ Test-Suite test
   default-language: Haskell2010
   main-is:          Test.hs
   hs-source-dirs:   test
-  build-depends:    act-internal,
+  build-depends:    act,
                     pretty-simple          >= 2.2,
                     quickcheck-instances   >= 0.3,
                     quickcheck-transformer >= 0.3,
                     tasty-hunit            >= 0.10,
                     tasty-quickcheck       >= 0.10,
-                    QuickCheck             >= 2.13.2,
+                    QuickCheck             >= 2.14.2,
                     tasty                  >= 1.2

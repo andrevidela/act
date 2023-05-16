@@ -1,4 +1,4 @@
-{ compiler ? "ghc8104" }:
+{ compiler ? "ghc902" }:
 
 let
   sources = import ./nix/sources.nix;
@@ -11,7 +11,7 @@ let
     overrides = hself: hsuper: {
       hevm = dapptools.sharedHaskellPackages.hevm;
       sbv = dapptools.sharedHaskellPackages.sbv;
-      act = (hself.callCabal2nixWithOptions "act" (gitignore ./src) "-fci" {}).overrideAttrs (attrs : {
+      act = (hself.callCabal2nixWithOptions "act" (gitignore ./.) "-fci" {}).overrideAttrs (attrs : {
         buildInputs = attrs.buildInputs ++ [ pkgs.z3 pkgs.cvc4 ];
       });
     };

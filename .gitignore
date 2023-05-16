@@ -12,6 +12,8 @@ result*
 **/*.cabal.local
 **/cabal.project.local*
 src/dist/
+dist-newstyle/
+dist/
 
 # coq
 *.vo
